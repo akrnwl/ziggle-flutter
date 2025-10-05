@@ -5,7 +5,6 @@ import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:ziggle/app/modules/core/data/dio/groups_dio.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/create_group_model.dart';
-import 'package:ziggle/app/modules/groups/data/data_sources/models/create_role_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_existence_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_invite_code_response_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_item_model.dart';
@@ -25,28 +24,27 @@ abstract class GroupApi {
   @factoryMethod
   factory GroupApi(GroupsDio dio) = _GroupApi;
 
-  /* Group */
+  @POST('')
+  Future<GroupItemModel> createGroup(@Body() CreateGroupModel model);
 
   @GET('')
   Future<GroupListModel> getGroups();
 
-  @POST('')
-  Future<GroupItemModel> createGroup(@Body() CreateGroupModel model);
-
-  @POST('join')
-  Future<void> joinGroup(@Body() Map<String, String> code);
-
   @GET('{uuid}')
-  Future<GroupModel> getGroup(@Path('uuid') String uuid);
+  Future<GroupModel> getGroup(
+    @Path('uuid') String uuid,
+  );
 
   @PATCH('{uuid}')
-  Future<void> updateGroup(
+  Future<void> modifyGroup(
     @Path('uuid') String uuid,
     @Body() ModifyGroupModel model,
   );
 
   @DELETE('{uuid}')
-  Future<void> deleteGroup(@Path('uuid') String uuid);
+  Future<void> deleteGroup(
+    @Path('uuid') String uuid,
+  );
 
   @GET('{name}/exist')
   Future<GroupExistenceModel> checkGroupExistence(@Path('name') String name);
@@ -58,6 +56,11 @@ abstract class GroupApi {
     @Part(name: 'file') File image,
   );
 
+  @GET('{uuid}/role')
+  Future<RoleModel> getUserRoleInGroup(
+    @Path('uuid') String uuid,
+  );
+
   @POST('{uuid}/invite')
   Future<GroupInviteCodeResponseModel> createInviteCode(
     @Path('uuid') String uuid,
@@ -65,11 +68,13 @@ abstract class GroupApi {
     @Query('duration') int duration,
   );
 
-  @DELETE('{uuid}/member/leave')
-  Future<void> leaveGroup(@Path('uuid') String uuid);
-
   @GET('{uuid}/member')
-  Future<MemberListModel> getMembers(@Path('uuid') String uuid);
+  Future<MemberListModel> getMembers(
+    @Path('uuid') String uuid,
+  );
+
+  @POST('join')
+  Future<void> joinGroup(@Body() Map<String, String> code);
 
   @DELETE('{uuid}/member/{targetUuid}')
   Future<void> banishUser(
@@ -103,26 +108,30 @@ abstract class GroupApi {
     @Body() Map<String, String> newPresidentUuid,
   );
 
-  @GET('{uuid}/role')
-  Future<RoleModel> getUserRoleInGroup(@Path('uuid') String uuid);
-  /* Role */
-
-  @GET('{uuid}/role')
-  Future<RoleListModel> getRoles(@Path('uuid') String uuid);
-
-  @POST('{uuid}/role')
-  Future<void> createRole(
-    @Path('uuid') String uuid,
-    @Body() CreateRoleModel createRoleModel,
+  @GET('{groupUuid}/role')
+  Future<RoleListModel> getRoles(
+    @Path('groupUuid') String groupUuid,
   );
 
-  @PATCH('{uuid}/role/{id}')
+  @POST('{groupUuid}/role')
+  Future<void> createRole(
+    @Path('groupUuid') String groupUuid,
+    @Body() CreateGroupModel createGroupModel,
+  );
+
+  @PATCH('{groupUuid}/role/{id}')
   Future<void> updateRole(
-    @Path('uuid') String uuid,
+    @Path('groupUuid') String groupUuid,
     @Path('id') String id,
     @Body() UpdateRoleModel updateRoleModel,
   );
 
-  @DELETE('{uuid}/role/{id}')
-  Future<void> deleteRole(@Path('uuid') String uuid, @Path('id') String id);
+  @DELETE('{groupUuid}/role/{id}')
+  Future<void> deleteRole(
+    @Path('groupUuid') String groupUuid,
+    @Path('id') String id,
+  );
+
+  @DELETE('{groupUuid}/member/leave')
+  Future<void> leaveGroup(@Path('groupUuid') String groupUuid);
 }

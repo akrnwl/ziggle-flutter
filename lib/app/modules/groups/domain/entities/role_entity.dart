@@ -4,12 +4,12 @@ class RoleEntity {
   final int id;
   final GroupMemberRole name;
   final String groupUuid;
-  final List<String> permissions;
+  final List<String> authorities;
 
   RoleEntity({
     required this.id,
     required this.name,
     required this.groupUuid,
-    required this.permissions,
+    required this.authorities,
   });
 }

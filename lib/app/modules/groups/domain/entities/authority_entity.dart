@@ -1,5 +1,5 @@
-class PermissionEntity {
-  final List<String> permissions;
+class AuthorityEntity {
+  final List<String> authorities;
 
-  PermissionEntity({required this.permissions});
+  AuthorityEntity({required this.authorities});
 }
