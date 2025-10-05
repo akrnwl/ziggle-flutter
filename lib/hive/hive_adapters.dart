@@ -7,6 +7,7 @@ import 'package:ziggle/app/modules/user/data/models/setting_model.dart';
 @GenerateAdapters([
   AdapterSpec<SettingModel>(),
   AdapterSpec<NoticeWriteDraftModel>(),
+  AdapterSpec<Language>(),
   AdapterSpec<NoticeType>(),
 ])
 part 'hive_adapters.g.dart';

@@ -7,6 +7,7 @@ import 'package:ziggle/hive/hive_adapters.dart';
 
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
+    registerAdapter(LanguageAdapter());
     registerAdapter(NoticeTypeAdapter());
     registerAdapter(NoticeWriteDraftModelAdapter());
     registerAdapter(SettingModelAdapter());
@@ -15,6 +16,7 @@ extension HiveRegistrar on HiveInterface {
 
 extension IsolatedHiveRegistrar on IsolatedHiveInterface {
   void registerAdapters() {
+    registerAdapter(LanguageAdapter());
     registerAdapter(NoticeTypeAdapter());
     registerAdapter(NoticeWriteDraftModelAdapter());
     registerAdapter(SettingModelAdapter());

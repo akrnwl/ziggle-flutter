@@ -20,12 +20,12 @@ class HiveSettingRepository
 
   @override
   Future<Language> getLanguage() async {
-    return _data.language;
+    return Language.values.byName(_data.language);
   }
 
   @override
   Future<void> setLanguage(Language language) async {
-    await _box.put(_boxKey, _data.copyWith(language: language));
+    await _box.put(_boxKey, _data.copyWith(language: language.name));
   }
 
   @override

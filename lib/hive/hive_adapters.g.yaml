@@ -25,6 +25,14 @@ types:
         index: 3
       deadline:
         index: 4
+  Language:
+    typeId: 3
+    nextIndex: 2
+    fields:
+      ko:
+        index: 0
+      en:
+        index: 1
   NoticeType:
     typeId: 4
     nextIndex: 9
